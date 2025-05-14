@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pss Pss</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--background-color);
+    }
+
+    .wrapper {
+      text-align: center;
+      position: relative;
+      width: 80%;
+    }
+
+    .loading-bar {
+      position: relative;
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 20px;
+      margin: 40px auto 20px;
+      height: 2rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 8px solid var(--accent-color);
+    }
+    
+    .loading-bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--primary-color),
+        var(--primary-color) 20px,
+        var(--secondary-color) 20px,
+        var(--secondary-color) 40px
+      );
+      transition: width 0.3s linear;
+      z-index: 1;
+    }
+
+    .loading-text {
+      color: white;
+      z-index: 4;
+      font-weight: bold;
+      filter: drop-shadow(0 0 5px var(--accent-color));
+      font-size: 1.5rem
+    }
+
+    .loading-image {
+      position: absolute;
+      top: -55px;
+      left: -40px;
+      width: 100px;
+      height: 100px;
+      background-image: url('images/loading/start.png');
+      transform: scaleX(-1);
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: left 0.5s ease;
+      z-index: 4;
+    }
+
+    .loading-status {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    .dialog-box-container {
+      background: rgba(0,0,0,0.3); 
+      width: 100%; 
+      height: 100%; 
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      animation: slide-up 0.5s ease-in-out;
+    }
+
+    .dialog-box {
+      width: 50vw;
+      height: 50vh;
+      background: whitesmoke;
+      border-radius: 20px;
+    }
+
+    .dialog-box-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 10px 0;
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+    }
+
+    .dialog-box-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;;
+      text-align: center;
+      padding: 10px 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="background-animation"></div>
+  <div class="wrapper">
+    <div class="loading-image" id="loadingImage"></div>
+
+    <div class="loading-bar">
+      <div class="loading-bar-fill" id="loadingBarFill"></div>
+      <span class="loading-text" id="loadingText">0%</span>
+    </div>
+
+    <div class="loading-status" id="loadingStatus">Without Love</div>
+
+    <button class="btn-cta" id="btnOpenDialogBox" style="display: none;">Psst Psst!</button>
+  </div>
+
+  <div id="dialogBox" class="dialog-box-container" style="display: none;">
+    <div class="dialog-box">
+      <div class="dialog-box-header">
+        <h1>Verify yourself!</h1>
+      </div>
+      <div class="dialog-box-content">
+        <p>It's top secret mission. You are required to do verification to ensure you are the correct person.</p>
+        <p>Are you prepared?</p>
+        <div>
+          <button class="btn-cta" id="btnYes">Yes</button>
+          <button class="btn-cta" id="btnNo">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="transitionContainer" class="transition-container" style="display: none;">
+
+  </div>
+
+  <script>
+    const barFill = document.getElementById('loadingBarFill');
+    const img = document.getElementById('loadingImage');
+    const text = document.getElementById('loadingText');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const btnOpenDialogBox = document.getElementById('btnOpenDialogBox');
+    const dialogBox = document.getElementById('dialogBox');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+    const transition = document.getElementById('transitionContainer');
+
+    let baseFontSize = 1;
+
+    function loading() {
+      let progress = 0;
+      let loadingDots = 0;
+
+      const loadingInterval = setInterval(() => {
+        progress += 1;
+        barFill.style.width = progress + '%';
+
+        text.textContent = progress + '%';
+
+        img.style.left = `calc(${progress}% - 60px)`;
+
+        if (progress === 100) {
+          clearInterval(loadingInterval);
+          clearInterval(textInterval); // <-- Clear loading text animation too
+          img.style.backgroundImage = "url('images/loading/end.png')";
+          img.style.transform = "unset";
+          loadingStatus.textContent = 'With Love ❤️';
+          
+          setTimeout(() => {
+            btnOpenDialogBox.style.display = 'inline-block';
+          }, 500);
+        }
+      }, 50);
+
+      const textInterval = setInterval(() => {
+        loadingDots = (loadingDots + 1) % 4;
+        loadingStatus.textContent = 'Without Love' + '.'.repeat(loadingDots);
+      }, 500);
+    }
+
+    // Events
+    document.addEventListener('DOMContentLoaded', loading);
+    btnOpenDialogBox.addEventListener("click", function (e) {
+      dialogBox.style.display = "flex";
+    });
+
+    btnNo.addEventListener("click", function (e) {
+      baseFontSize *= 1.5;
+
+      if (baseFontSize > 5) {
+        baseFontSize = 5;
+        alert("You are persistent! But I can't let you get out of here that easily.");
+        btnNo.style.display = "none";
+      }
+
+      btnYes.style.fontSize = `${baseFontSize}rem`;
+    });
+
+    btnYes.addEventListener("click", function (e) {
+      transition.style.display = "flex";
+      transition.classList.add("entering");
+
+      setTimeout(() => {
+        window.location.href = "verify.html";
+      }, 500);
+    });
+
+  </script>
+
+</body>
+</html>

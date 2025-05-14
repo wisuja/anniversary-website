@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pss Pss</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="verify.css">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--background-color);
+    }
+
+    .dialog-box-container {
+      background: rgba(0,0,0,0.3); 
+      width: 100%; 
+      height: 100%; 
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      animation: slide-up 0.5s ease-in-out;
+    }
+
+    .dialog-box {
+      width: 50vw;
+      height: 50vh;
+      background: whitesmoke;
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .dialog-box-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 10px 0;
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+    }
+
+    .dialog-box-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;;
+      text-align: center;
+      padding: 10px 20px;
+    }
+
+    .dialog-box.shaking {
+      animation: shaking 0.3s ease-in-out;
+      border: 0.5rem solid var(--accent-color) ;
+      border-radius: 30px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animation"></div>
+
+  <div id="transitionContainer" class="transition-container exiting">
+  </div>
+
+  <div id="dialogBox" class="dialog-box-container" style="display: none;">
+    <div class="dialog-box">
+      <div class="dialog-box-header">
+        <h1>Verify yourself!</h1>
+      </div>
+      <div class="dialog-box-content">
+        <div id="firstQuestion">
+          <p style="margin-bottom: 1.5rem;">Who are you?</p>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 1rem">
+            <input type="text" id="firstCharacter" class="form-input" oninput="this.value = this.value.toUpperCase()" />
+            <input type="text" id="secondCharacter" class="form-input" oninput="this.value = this.value.toUpperCase()" />
+            <input type="text" id="thirdCharacter" class="form-input" oninput="this.value = this.value.toUpperCase()" />
+            <input type="text" id="fourthCharacter" class="form-input" oninput="this.value = this.value.toUpperCase()" />
+            <input type="text" id="fifthCharacter" class="form-input"  oninput="this.value = this.value.toUpperCase()" />
+          </div>
+        </div>
+
+        <div id="secondQuestion" style="display: none;">
+          <p style="margin-bottom: 1.5rem;">Not bad. Try to crack this one if you are legit!</p>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 1rem">
+            <input type="number" id="firstDateInput" class="form-input" placeholder="M" />
+            <input type="number" id="secondDateInput" class="form-input" placeholder="M" />
+            <input type="number" id="thirdDateInput" class="form-input" placeholder="D" />
+            <input type="number" id="fourthDateInput" class="form-input" placeholder="D" />
+          </div>
+        </div>
+
+        <div id="thirdQuestion" style="display: none;">
+          <p style="margin-bottom: 1.5rem;">Damn! You do know me!</p>
+          <br>
+          <p style="margin-bottom: 1.5rem;">Your last test. Let's see if you can clear this.</p>
+          <button id="btnRecord" class="btn-cta" style="border-radius: 50%; width: 5rem; height: 4.5rem;">
+            <i class="fa-solid fa-microphone fa-fw" style="font-size: 2rem;"></i>
+          </button>
+        </div>
+        <img id="spyImage" src="images/spy.png" alt="Spy" style="width: 100px; height: 100px; bottom: 20px; right: 20px; position: absolute;">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dialogBox = document.getElementById('dialogBox');
+    const transition = document.getElementById('transitionContainer');
+
+    const firstQuestion = document.getElementById('firstQuestion');
+    const firstCharacter = document.getElementById('firstCharacter');
+    const secondCharacter = document.getElementById('secondCharacter');
+    const thirdCharacter = document.getElementById('thirdCharacter');
+    const fourthCharacter = document.getElementById('fourthCharacter');
+    const fifthCharacter = document.getElementById('fifthCharacter');
+
+    const secondQuestion = document.getElementById('secondQuestion');
+    const firstDateInput = document.getElementById('firstDateInput');
+    const secondDateInput = document.getElementById('secondDateInput');
+    const thirdDateInput = document.getElementById('thirdDateInput');
+    const fourthDateInput = document.getElementById('fourthDateInput');
+    
+    const thirdQuestion = document.getElementById('thirdQuestion');
+    const btnRecord = document.getElementById('btnRecord');
+
+    const spyImage = document.getElementById('spyImage');
+
+    // Events
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(() => {
+        dialogBox.style.display = "flex";
+        firstCharacter.focus();
+      }, 500);
+    });
+
+    firstCharacter.addEventListener('input', function () {
+      if (firstCharacter.value.length >= 1) {
+        secondCharacter.focus();
+      }
+    });
+
+    secondCharacter.addEventListener('input', function () {
+      if (secondCharacter.value.length >= 1) {
+        thirdCharacter.focus();
+      }
+    });
+
+    thirdCharacter.addEventListener('input', function () {
+      if (thirdCharacter.value.length >= 1) {
+        fourthCharacter.focus();
+      }
+    });
+    fourthCharacter.addEventListener('input', function () {
+      if (fourthCharacter.value.length >= 1) {
+        fifthCharacter.focus();
+      }
+    });
+
+    fifthCharacter.addEventListener('input', function () {
+      if (fifthCharacter.value.length >= 1) {
+        fifthCharacter.blur();
+        const name = firstCharacter.value + secondCharacter.value + thirdCharacter.value + fourthCharacter.value + fifthCharacter.value;
+        
+        setTimeout(() => {
+          if (name.toUpperCase() === 'ELLEN') {
+            firstQuestion.style.display = 'none';
+            secondQuestion.style.display = 'block';
+            firstDateInput.focus();
+          } else {
+            firstCharacter.value = '';
+            secondCharacter.value = '';
+            thirdCharacter.value = '';
+            fourthCharacter.value = '';
+            fifthCharacter.value = '';
+            firstCharacter.focus();
+
+            const box = document.querySelector('.dialog-box');
+            box.classList.add('shaking');
+            setTimeout(() => {
+              box.classList.remove('shaking');
+            }, 500);
+          }
+        }, 300);
+      }
+    });
+
+    firstCharacter.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && firstCharacter.value.length === 0) {
+        firstCharacter.focus();
+        firstCharacter.value = '';
+      }
+    });
+
+    secondCharacter.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && secondCharacter.value.length === 0) {
+        firstCharacter.focus();
+        firstCharacter.value = '';
+      }
+    });
+
+    thirdCharacter.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && thirdCharacter.value.length === 0) {
+        secondCharacter.focus();
+        secondCharacter.value = '';
+      }
+    });
+
+    fourthCharacter.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && fourthCharacter.value.length === 0) {
+        thirdCharacter.focus();
+        thirdCharacter.value = '';
+      }
+    });
+
+    fifthCharacter.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && fifthCharacter.value.length === 0) {
+        fourthCharacter.focus();
+        fourthCharacter.value = '';
+      }
+    });
+
+    firstDateInput.addEventListener('input', function () {
+      if (firstDateInput.value.length >= 1) {
+        secondDateInput.focus();
+      }
+    });
+    secondDateInput.addEventListener('input', function () {
+      if (secondDateInput.value.length >= 1) {
+        thirdDateInput.focus();
+      }
+    });
+    thirdDateInput.addEventListener('input', function () {
+      if (thirdDateInput.value.length >= 1) {
+        fourthDateInput.focus();
+      }
+    });
+    fourthDateInput.addEventListener('input', function () {
+      if (fourthDateInput.value.length >= 1) {
+        fourthDateInput.blur();
+        const date = firstDateInput.value + secondDateInput.value + thirdDateInput.value + fourthDateInput.value;
+        
+        setTimeout(() => {
+          if (date === '0528') {
+            secondQuestion.style.display = 'none';
+            thirdQuestion.style.display = 'block';
+          } else {
+            firstDateInput.value = '';
+            secondDateInput.value = '';
+            thirdDateInput.value = '';
+            fourthDateInput.value = '';
+            firstDateInput.focus();
+
+            const box = document.querySelector('.dialog-box');
+            box.classList.add('shaking');
+            setTimeout(() => {
+              box.classList.remove('shaking');
+            }, 500);
+          }
+        }, 300);
+      }
+    });
+
+    firstDateInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && firstDateInput.value.length === 0) {
+        firstDateInput.focus();
+        firstDateInput.value = '';
+      }
+    });
+    secondDateInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && secondDateInput.value.length === 0) {
+        firstDateInput.focus();
+        firstDateInput.value = '';
+      }
+    });
+    thirdDateInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && thirdDateInput.value.length === 0) {
+        secondDateInput.focus();
+        secondDateInput.value = '';
+      }
+    });
+    fourthDateInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && fourthDateInput.value.length === 0) {
+        thirdDateInput.focus();
+        thirdDateInput.value = '';
+      }
+    });
+
+  let isRecording = false; // State variable to track recording status
+
+  btnRecord.addEventListener('click', async function () {
+    // Prevent starting a new recording if one is already in progress
+    if (isRecording) return;
+
+    // Check if the browser supports the MediaRecorder API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('Your browser does not support audio recording.');
+      return;
+    }
+
+    try {
+      // Request microphone access
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      // Create a MediaRecorder instance
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      const audioChunks = [];
+
+      // Start recording
+      isRecording = true; // Set recording state to true
+      mediaRecorder.start();
+      console.log('Recording started...');
+      btnRecord.innerHTML = '<i class="fa-solid fa-stop fa-fw" style="font-size: 2rem;"></i>'; // Change button to "Stop"
+
+      // Push audio data to the array when data is available
+      mediaRecorder.addEventListener('dataavailable', (event) => {
+        audioChunks.push(event.data);
+      });
+
+      // Stop recording when the button is clicked again
+      btnRecord.onclick = function () {
+        if (!isRecording) return; // Prevent stopping if not recording
+        mediaRecorder.stop();
+        console.log('Recording stopped.');
+        btnRecord.innerHTML = '<i class="fa-solid fa-microphone fa-fw" style="font-size: 2rem;"></i>'; // Reset button
+        btnRecord.disabled = true; // Disable the button after stopping
+        isRecording = false; // Reset recording state
+
+        thirdQuestion.innerHTML = `<p>You are my baby! ❤️</p> <br> <p>Welcome to the show babe, hope you like this gift!!</p>`;
+        spyImage.attributes.src.value = 'images/spy-happy.png';
+
+        setTimeout(() => {
+          transition.classList.remove('exiting');
+          transition.classList.add('entering');
+          setTimeout(() => {
+            // window.location.href = 'index.html';
+          }, 1000);
+        }, 3000);
+      };
+
+      // Save the audio file when recording stops
+      mediaRecorder.addEventListener('stop', () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        // Create a download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = audioUrl;
+        downloadLink.download = 'recording.webm'; // Save as .webm
+        downloadLink.textContent = 'Download Recording';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        // Stop the microphone stream
+        stream.getTracks().forEach((track) => track.stop());
+      });
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      alert('Could not access your microphone. Please check your permissions.');
+      isRecording = false; // Reset recording state in case of error
+    }
+  });
+  </script>
+
+</body>
+</html>
