@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pss Pss</title>
+  <title>Verify your self!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -341,7 +341,9 @@
           transition.classList.remove('exiting');
           transition.classList.add('entering');
           setTimeout(() => {
-            // window.location.href = 'index.html';
+            window.sessionStorage.setItem("from-verify", "true");
+
+            window.location.href = 'slideshow.html';
           }, 1000);
         }, 3000);
       };

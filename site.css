@@ -1,10 +1,10 @@
 :root {
-  --accent-color: rgb(254, 108, 100);
+  --accent-color: #fe6c64;
   --background-color: #bceaff;
-  --darker-background-color: rgb(63, 153, 195);
-  --primary-color: rgb(19, 219, 212);
-  --secondary-color: rgb(155, 255, 245);
-  --orange-color: rgb(252, 114, 50);
+  --darker-background-color: #3f99c3;
+  --primary-color: #13dbd4;
+  --secondary-color: #9bfff5;
+  --orange-color: #fc7232;
 }
 
 root,

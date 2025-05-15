@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy anniversary babe! ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="slideshow.css">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--background-color);
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh; /* Ensure full viewport height */
+    }
+
+    .photo-board {
+      display: flex;
+      overflow: hidden; /* Hide overflowing content */
+      width: 100%;
+      height: 12rem; /* Adjust height to fit your photos */
+      position: relative;
+    }
+
+    .photo-board .slideshow {
+      display: flex;
+      animation: scroll-left 90s linear infinite; /* Slideshow animation */
+    }
+
+    .photo-board .slideshow:hover {
+      animation-play-state: paused; /* Pause the animation on hover */
+    }
+
+    .photo-board .photo-card {
+      flex: 0 0 auto; /* Prevent shrinking */
+      margin-right: 20px; /* Add spacing between photos */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      box-sizing: border-box;
+    }
+
+    .photo-board .photo-card img {
+      width: auto;
+      height: 10rem;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .photo-board .photo-card .remarks {
+      padding: 10px;
+      text-align: center;
+      font-size: 1rem;
+      color: #333;
+      word-break: break-word;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    .transition-container {
+      background: var(--darker-background-color);
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .transition-container.entering {
+      animation: transition-in 0.5s forwards;
+    }
+
+    .transition-container.exiting {
+      animation: transition-out 0.5s forwards;
+    }
+
+    #divSurprise {
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 1s ease-in-out;
+    }
+
+    #divSurprise.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animation"></div>
+  <div id="transitionContainer" class="transition-container exiting"></div>
+
+  <h1 class="title">Happy Anniversary Babe! ❤️ </h1>
+
+  <p style="margin-bottom: 1rem; color: var(--accent-color); font-weight: bold;">Look through our hall of memory, babe!</p>
+  
+  <div class="photo-board">
+    <div class="slideshow">
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-1.jpg')">
+        <img src="images/slideshow/photo-1.jpg" alt="Photo 1 - A beautiful memory">
+        <div class="remarks">Our first wefie ever! Doki-doki 🥰</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-2.jpg')">
+        <img src="images/slideshow/photo-2.jpg" alt="Photo 2 - A special moment">
+        <div class="remarks">Our first date! One of the first photo you had of me.</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-3.jpg')">
+        <img src="images/slideshow/photo-3.jpg" alt="Photo 3 - A cherished day">
+        <div class="remarks">First karaoke together!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-4.jpg')">
+        <img src="images/slideshow/photo-4.jpg" alt="Photo 4 - A beautiful memory">
+        <div class="remarks">The moment that bring us back together!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-5.jpg')">
+        <img src="images/slideshow/photo-5.jpg" alt="Photo 5 - A special moment">
+        <div class="remarks">I still remember how awkward I am to be this close to you 😳</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-6.jpg')">
+        <img src="images/slideshow/photo-6.jpg" alt="Photo 6 - A cherished day">
+        <div class="remarks">3D2N was the best choice I had!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-7.jpg')">
+        <img src="images/slideshow/photo-7.jpg" alt="Photo 7 - A beautiful memory">
+        <div class="remarks">The moment where I took a dip because of you.</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-8.jpg')">
+        <img src="images/slideshow/photo-8.jpg" alt="Photo 8 - A special moment">
+        <div class="remarks">Our first photo shoot together!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-9.jpg')">
+        <img src="images/slideshow/photo-9.jpg" alt="Photo 9 - A cherished day">
+        <div class="remarks">Valentine! First flowers for you!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-10.jpg')">
+        <img src="images/slideshow/photo-10.jpg" alt="Photo 10 - A beautiful memory">
+        <div class="remarks">First arrival to JKT. We are so happy!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-11.jpg')">
+        <img src="images/slideshow/photo-11.jpg" alt="Photo 11 - A special moment">
+        <div class="remarks">Our first self-photo studio babe!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-12.jpg')">
+        <img src="images/slideshow/photo-12.jpg" alt="Photo 12 - A cherished day">
+        <div class="remarks">Our first aquarium date ehe</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-13.jpg')">
+        <img src="images/slideshow/photo-13.jpg" alt="Photo 13 - A beautiful memory">
+        <div class="remarks">One of my fav picture of us. P.S you fell down at here 😔</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-14.jpg')">
+        <img src="images/slideshow/photo-14.jpg" alt="Photo 14 - A special moment">
+        <div class="remarks">First and best trip to Bandung!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-15.jpg')">
+        <img src="images/slideshow/photo-15.jpg" alt="Photo 15 - A cherished day">
+        <div class="remarks">Impulsive, but it was worth the memory babe.</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-16.jpg')">
+        <img src="images/slideshow/photo-16.jpg" alt="Photo 16 - A beautiful memory">
+        <div class="remarks">Celebrating my birthday moment together, kinda!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-17.jpg')">
+        <img src="images/slideshow/photo-17.jpg" alt="Photo 17 - A special moment">
+        <div class="remarks">Second arrival to JKT!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-18.jpg')">
+        <img src="images/slideshow/photo-18.jpg" alt="Photo 18 - A cherished day">
+        <div class="remarks">First time accompanying you to hair salon. You look gorgeous babe!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-19.jpg')">
+        <img src="images/slideshow/photo-19.jpg" alt="Photo 19 - A beautiful memory">
+        <div class="remarks">Celebrating your birthday together! 🎂</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-20.jpg')">
+        <img src="images/slideshow/photo-20.jpg" alt="Photo 20 - A special moment">
+        <div class="remarks">I'm happy that you introducing me as your bf to your close friend.</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-21.jpg')">
+        <img src="images/slideshow/photo-21.jpg" alt="Photo 21 - A cherished day">
+        <div class="remarks">SG Trip, it's such a memorable experience</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-22.jpg')">
+        <img src="images/slideshow/photo-22.jpg" alt="Photo 22 - A beautiful memory">
+        <div class="remarks">Fun and random trip to Trikora w/ bb!</div>
+      </div>
+      <div class="photo-card" onclick="openModal('images/slideshow/photo-23.jpg')">
+        <img src="images/slideshow/photo-23.jpg" alt="Photo 23 - A special moment">
+        <div class="remarks">First time driving you to airport😔</div>
+      </div>
+      <p style=" white-space: nowrap; display: flex; align-items: center;">and many more to come! ❤️</p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="photoModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modalImage" src="" alt="Enlarged Photo">
+  </div>
+
+  <div id="divSurprise">
+    <p style="margin-top: 2rem; ">Scan below for surprises!</p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+      <img src="images/qr-code.png" alt="QR Code" style="width: 10rem; height: 10rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+    </div>
+  
+    <a download href="images/coupon.png" style="text-decoration-color: var(--accent-color); color: var(--accent-color); font-size: 1.5rem; font-weight: bold; margin-top: 1rem;">Click here!</a>
+  </div>
+
+  <audio id="audio" src="bgm.mp3" autoplay loop></audio>
+
+  <script>
+    const transition = document.getElementById('transitionContainer');
+    const modal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const divSurprise = document.getElementById('divSurprise');
+
+    // Open modal with the selected image
+    function openModal(imageSrc) {
+      modalImage.src = imageSrc;
+      modal.style.display = 'flex';
+    }
+
+    // Close the modal
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    // Keep the transition container logic
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.sessionStorage.getItem("from-verify") === null) {
+        alert("Please verify your identity first!");
+
+        window.location.href = "verify.html";
+        return;
+      }
+
+      setTimeout(() => {
+        divSurprise.classList.add('show');
+      }, 80000);
+    });
+  </script>
+</body>
+</html>

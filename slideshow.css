@@ -1,0 +1,41 @@
+.title {
+  text-decoration: underline;
+  text-decoration-color: var(--orange-color);
+  text-decoration-thickness: 0.2rem;
+  text-underline-offset: 1.5rem;
+  text-decoration-style: wavy;
+
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+  color: transparent; /* Text color will be handled by the gradient */
+  background: linear-gradient(45deg, var(--orange-color), #ffcc33);
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  -webkit-text-stroke: 2px white;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+
+  animation: bubbly 5s infinite ease-in-out; /* Bouncy animation */
+
+  margin-bottom: 2rem;
+}
+
+@keyframes bubbly {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(20%); /* Start from the middle */
+  }
+  100% {
+    transform: translateX(-175%);
+  }
+}
